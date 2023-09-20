@@ -5,6 +5,9 @@ package messagepb;
 option go_package = ".;curpapi";
 
 import "command.proto";
+import "error.proto";
+import "google/protobuf/empty.proto";
+
 
 message FetchLeaderRequest {
 }
@@ -39,14 +42,12 @@ message FetchReadStateResponse {
 }
 
 message ShutdownRequest {
-    string id = 1;
 }
 
 message ShutdownResponse {
     optional uint64 leader_id = 1;
     uint64 term = 2;
-    // The original type is ProposeError
-    optional bytes error = 3;
+    optional errorpb.ProposeError error = 3;
 }
 
 message ProposeConfChangeRequest {
@@ -55,6 +56,7 @@ message ProposeConfChangeRequest {
         AddLearner = 1;
         Remove = 2;
         Update = 3;
+        Promote = 4;
     }
     message ConfChange {
         ConfChangeType change_type = 1;
@@ -73,13 +75,16 @@ message Member {
 };
 
 message ProposeConfChangeResponse {
-    enum ConfChangeError {
-        InvalidConfig = 0;
-        NodeNotExists = 1;
-        NodeAlreadyExists = 2;
+    oneof error {
+        google.protobuf.Empty InvalidConfig = 1;
+        google.protobuf.Empty NodeNotExists = 2;
+        google.protobuf.Empty NodeAlreadyExists = 3;
+        google.protobuf.Empty LearnerNotCatchUp = 4;
+        errorpb.ProposeError propose = 5;
     }
-    optional ConfChangeError error = 1;
-    repeated Member members = 2;
+    repeated Member members = 6;
+    optional uint64 leader_id = 7;
+    uint64 term = 8;
 }
 
 service Protocol {
