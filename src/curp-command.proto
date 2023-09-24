@@ -26,17 +26,18 @@ message ProposeRequest {
     bytes command = 1;
 }
 
-message ProposeResponse {
-    message CmdResult {
-        oneof result {
-            // The serialized command execute result
-            // The original type is Command::ER
-            bytes er = 1;
-            // The serialized command error
-            // The original type is Command::Error
-            bytes error = 2;
-        }
+message CmdResult {
+    oneof result {
+        // The serialized command execute result
+        // The original type is Command::ER
+        bytes ok = 1;
+        // The serialized command error
+        // The original type is Command::Error
+        bytes error = 2;
     }
+}
+
+message ProposeResponse {
     optional uint64 leader_id = 1;
     uint64 term = 2;
     oneof exe_result {
@@ -50,18 +51,13 @@ message WaitSyncedRequest {
 }
 
 message WaitSyncedResponse {
-    message Success {
-        // The serialized command after sync result
-        // The original type is Command::ASR
-        bytes after_sync_result = 1;
-        // The serialized command execute result
-        // The original type is Command::ER
-        bytes exe_result = 2;
-    }
-    oneof sync_result {
-        Success success = 1;
-        errorpb.CommandSyncError error = 2;
-    }
+    // The serialized command after sync result
+    // The original type is Result<Command::ASR, Command::Error>
+    CmdResult after_sync_result = 1;
+
+    // The serialized command execute result
+    // The original type is Result<Command::ER, Command::Error>
+    CmdResult exe_result = 2;
 }
 
 message FetchClusterRequest {
