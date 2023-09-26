@@ -4,8 +4,8 @@ package messagepb;
 
 option go_package = ".;curpapi";
 
-import "command.proto";
-import "error.proto";
+import "curp-command.proto";
+import "curp-error.proto";
 import "google/protobuf/empty.proto";
 
 

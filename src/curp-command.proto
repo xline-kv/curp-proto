@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package commandpb;
 
-import "error.proto";
+import "curp-error.proto";
 
 option go_package = ".;curpapi";
 
