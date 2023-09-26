@@ -16,14 +16,6 @@ message Member {
     bool is_learner = 4;
 };
 
-message FetchLeaderRequest {
-}
-
-message FetchLeaderResponse {
-    optional uint64 leader_id = 1;
-    uint64 term = 2;
-}
-
 message FetchClusterRequest {
 }
 
@@ -94,7 +86,6 @@ service Protocol {
             returns (commandpb.WaitSyncedResponse);
     rpc ProposeConfChange (ProposeConfChangeRequest) returns (ProposeConfChangeResponse);
     rpc Shutdown (ShutdownRequest) returns (ShutdownResponse);
-    rpc FetchLeader (FetchLeaderRequest) returns (FetchLeaderResponse);
     rpc FetchCluster (FetchClusterRequest) returns (FetchClusterResponse);
     rpc FetchReadState (FetchReadStateRequest) returns (FetchReadStateResponse);
 }
