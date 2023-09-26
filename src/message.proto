@@ -74,10 +74,11 @@ message ProposeConfChangeResponse {
         google.protobuf.Empty NodeAlreadyExists = 3;
         google.protobuf.Empty LearnerNotCatchUp = 4;
         errorpb.ProposeError propose = 5;
+        string other = 6;
     }
-    repeated Member members = 6;
-    optional uint64 leader_id = 7;
-    uint64 term = 8;
+    repeated Member members = 7;
+    optional uint64 leader_id = 8;
+    uint64 term = 9;
 }
 
 service Protocol {
