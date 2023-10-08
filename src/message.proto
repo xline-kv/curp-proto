@@ -21,8 +21,9 @@ message FetchClusterRequest {
 
 message FetchClusterResponse {
     optional uint64 leader_id = 1;
-    repeated Member members = 2;
-    uint64 term = 3;
+    uint64 term = 2;
+    uint64 cluster_id = 3;
+    repeated Member members = 4;
 }
 
 message IdSet {
