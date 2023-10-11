@@ -44,9 +44,6 @@ message ShutdownRequest {
 }
 
 message ShutdownResponse {
-    optional uint64 leader_id = 1;
-    uint64 term = 2;
-    optional errorpb.ProposeError error = 3;
 }
 
 message ProposeConfChangeRequest {
