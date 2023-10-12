@@ -17,6 +17,7 @@ message Member {
 };
 
 message FetchClusterRequest {
+    bool linearizable = 1;
 }
 
 message FetchClusterResponse {
@@ -85,7 +86,7 @@ message ProposeConfChangeResponse {
 service Protocol {
     rpc Propose (commandpb.ProposeRequest) returns (commandpb.ProposeResponse);
     rpc WaitSynced (commandpb.WaitSyncedRequest)
-            returns (commandpb.WaitSyncedResponse);
+        returns (commandpb.WaitSyncedResponse);
     rpc ProposeConfChange (ProposeConfChangeRequest) returns (ProposeConfChangeResponse);
     rpc Shutdown (ShutdownRequest) returns (ShutdownResponse);
     rpc FetchCluster (FetchClusterRequest) returns (FetchClusterResponse);
