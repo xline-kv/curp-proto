@@ -27,20 +27,25 @@ message WaitSyncedRequest {
 }
 
 message WaitSyncedResponse {
-    // The serialized command after sync result
-    // The original type is Result<Command::ASR, Command::Error>
-    CmdResult after_sync_result = 1;
-
-    // The serialized command execute result
-    // The original type is Result<Command::ER, Command::Error>
-    CmdResult exe_result = 2;
+    message Success {
+        // The serialized command after sync result
+        // The original type is Command::ASR
+        bytes after_sync_result = 1;
+        // The serialized command execute result
+        // The original type is Command::ER
+        bytes exe_result = 2;
+    }
+    oneof sync_result {
+        Success success = 1;
+        errorpb.CommandSyncError error = 2;
+    }
 }
 
 message CmdResult {
     oneof result {
         // The serialized command execute result
-        // The original type is Command::ER or Command::ASR
-        bytes ok = 1;
+        // The original type is Command::ER
+        bytes er = 1;
         // The serialized command error
         // The original type is Command::Error
         bytes error = 2;
