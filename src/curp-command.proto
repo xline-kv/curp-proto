@@ -90,6 +90,7 @@ message FetchReadStateResponse {
 }
 
 message ShutdownRequest {
+    ProposeId propose_id = 1;
 }
 
 message ShutdownResponse {
