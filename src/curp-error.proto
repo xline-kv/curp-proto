@@ -7,9 +7,7 @@ option go_package = ".;curpapi";
 
 package errorpb;
 
-message ProposeError {
-    oneof propose_error {
-        google.protobuf.Empty key_conflict = 1;
-        google.protobuf.Empty duplicated = 2;
-    }
+enum ProposeError {
+    KeyConflict = 0;
+    Duplicated = 1;
 }
