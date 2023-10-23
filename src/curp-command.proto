@@ -6,6 +6,9 @@ package commandpb;
 import "google/protobuf/empty.proto";
 
 option go_package = ".;curpapi";
+option java_package = "com.curp.protobuf";
+option java_outer_classname = "CommandProto";
+option java_multiple_files = true;
 
 message ProposeId {
     uint64 client_id = 1;
