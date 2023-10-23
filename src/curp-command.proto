@@ -23,6 +23,7 @@ message ProposeRequest {
     // The serialized command
     // The original type is `Command`
     bytes command = 1;
+    uint64 cluster_version = 2;
 }
 
 message CmdResult {
@@ -52,6 +53,7 @@ message ProposeResponse {
 
 message WaitSyncedRequest {
     ProposeId propose_id = 1;
+    uint64 cluster_version = 2;
 }
 
 message WaitSyncedResponse {
@@ -73,10 +75,12 @@ message FetchClusterResponse {
     uint64 term = 2;
     uint64 cluster_id = 3;
     repeated Member members = 4;
+    uint64 cluster_version = 5;
 }
 
 message FetchReadStateRequest {
     bytes command = 1;
+    uint64 cluster_version = 2;
 }
 
 message FetchReadStateResponse {
@@ -91,6 +95,7 @@ message FetchReadStateResponse {
 
 message ShutdownRequest {
     ProposeId propose_id = 1;
+    uint64 cluster_version = 2;
 }
 
 message ShutdownResponse {
@@ -111,6 +116,7 @@ message ProposeConfChangeRequest {
     }
     ProposeId propose_id = 1;
     repeated ConfChange changes = 2;
+    uint64 cluster_version = 3;
 }
 
 message ProposeConfChangeResponse {
