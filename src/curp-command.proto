@@ -136,7 +136,7 @@ message FetchReadStateRequest {
 
 message FetchReadStateResponse {
     message IdSet {
-        repeated uint64 trigger_ids = 1;
+        repeated uint64 inflight_ids = 1;
     }
     oneof read_state {
         IdSet ids = 1;
@@ -188,7 +188,7 @@ service Protocol {
     rpc Propose(ProposeRequest) returns (ProposeResponse);
     rpc WaitSynced(WaitSyncedRequest) returns (WaitSyncedResponse);
     rpc ProposeConfChange(ProposeConfChangeRequest) returns (ProposeConfChangeResponse);
-    rpc Publish (PublishRequest) returns (PublishResponse);
+    rpc Publish(PublishRequest) returns (PublishResponse);
     rpc Shutdown(ShutdownRequest) returns (ShutdownResponse);
     rpc FetchCluster(FetchClusterRequest) returns (FetchClusterResponse);
     rpc FetchReadState(FetchReadStateRequest) returns (FetchReadStateResponse);
