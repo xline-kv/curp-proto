@@ -91,10 +91,11 @@ message CurpError {
 }
 
 message ProposeRequest {
+    ProposeId propose_id = 1;
     // The serialized command
     // The original type is `Command`
-    bytes command = 1;
-    uint64 cluster_version = 2;
+    bytes command = 2;
+    uint64 cluster_version = 3;
 }
 
 message ProposeResponse {
@@ -135,7 +136,7 @@ message FetchReadStateRequest {
 
 message FetchReadStateResponse {
     message IdSet {
-        repeated ProposeId ids = 1;
+        repeated uint64 trigger_ids = 1;
     }
     oneof read_state {
         IdSet ids = 1;
