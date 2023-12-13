@@ -138,8 +138,8 @@ message FetchReadStateResponse {
         repeated ProposeId ids = 1;
     }
     oneof read_state {
-      IdSet ids = 1;
-      uint64 commit_index = 2;
+        IdSet ids = 1;
+        uint64 commit_index = 2;
     }
 }
 
@@ -153,16 +153,16 @@ message ShutdownResponse {
 
 message ProposeConfChangeRequest {
     enum ConfChangeType {
-      Add = 0;
-      AddLearner = 1;
-      Remove = 2;
-      Update = 3;
-      Promote = 4;
+        Add = 0;
+        AddLearner = 1;
+        Remove = 2;
+        Update = 3;
+        Promote = 4;
     }
     message ConfChange {
-      ConfChangeType change_type = 1;
-      uint64 node_id = 2;
-      repeated string address = 3;
+        ConfChangeType change_type = 1;
+        uint64 node_id = 2;
+        repeated string address = 3;
     }
     ProposeId propose_id = 1;
     repeated ConfChange changes = 2;
