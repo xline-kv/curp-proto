@@ -90,6 +90,8 @@ message CurpError {
         // 6. failed in storage layer
         // ...
         string Internal = 12;
+        // When the leader is transferring or an error occurred in the transfer
+        string LeaderTransfer = 13;
     }
 }
 
@@ -186,6 +188,13 @@ message PublishRequest {
 message PublishResponse {
 }
 
+message MoveLeaderRequest {
+    uint64 node_id = 1;
+    uint64 cluster_version = 2;
+}
+
+message MoveLeaderResponse {}
+
 
 service Protocol {
     rpc Propose(ProposeRequest) returns (ProposeResponse);
@@ -195,4 +204,5 @@ service Protocol {
     rpc Shutdown(ShutdownRequest) returns (ShutdownResponse);
     rpc FetchCluster(FetchClusterRequest) returns (FetchClusterResponse);
     rpc FetchReadState(FetchReadStateRequest) returns (FetchReadStateResponse);
+    rpc MoveLeader(MoveLeaderRequest) returns (MoveLeaderResponse);
 }
