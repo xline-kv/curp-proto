@@ -5,21 +5,21 @@ package commandpb;
 
 import "google/protobuf/empty.proto";
 
-option go_package = ".;curpapi";
-option java_package = "com.curp.protobuf";
+option go_package           = ".;curpapi";
+option java_package         = "com.curp.protobuf";
 option java_outer_classname = "CommandProto";
-option java_multiple_files = true;
+option java_multiple_files  = true;
 
 message ProposeId {
     uint64 client_id = 1;
-    uint64 seq_num = 2;
+    uint64 seq_num   = 2;
 }
 
 message Member {
-    uint64 id = 1;
-    string name = 2;
+    uint64 id             = 1;
+    string name           = 2;
     repeated string addrs = 3;
-    bool is_learner = 4;
+    bool is_learner       = 4;
 }
 
 message CmdResult {
@@ -50,7 +50,7 @@ message CmdResult {
 message CurpError {
     message Redirect {
         optional uint64 leader_id = 1;
-        uint64 term = 2;
+        uint64 term               = 2;
     }
     oneof err {
         // When a command conflicts with the server SP.
@@ -71,8 +71,8 @@ message CurpError {
         google.protobuf.Empty ShuttingDown = 8;
         // When the request cluster_version does not match the cluster's.
         google.protobuf.Empty WrongClusterVersion = 9;
-        // When rpc transport error happens, this means the request does not send
-        // to server
+        // When rpc transport error happens, this means the request does not
+        // send to server
         google.protobuf.Empty RpcTransport = 10;
 
         // When the request should be send to leader and this node is not the
@@ -85,8 +85,8 @@ message CurpError {
         // 2. failed to reset the command executor by snapshot
         // 3. failed to get last applied index from command executor.
         // 4. io::Error
-        // 5. failed to encode and decode some stuff, like pb serialize or bincode
-        // serialize.
+        // 5. failed to encode and decode some stuff, like pb serialize or
+        // bincode serialize.
         // 6. failed in storage layer
         // ...
         string Internal = 12;
@@ -99,7 +99,7 @@ message ProposeRequest {
     ProposeId propose_id = 1;
     // The serialized command
     // The original type is `Command`
-    bytes command = 2;
+    bytes command          = 2;
     uint64 cluster_version = 3;
 }
 
@@ -108,7 +108,7 @@ message ProposeResponse {
 }
 
 message WaitSyncedRequest {
-    ProposeId propose_id = 1;
+    ProposeId propose_id   = 1;
     uint64 cluster_version = 2;
 }
 
@@ -122,20 +122,20 @@ message WaitSyncedResponse {
     CmdResult exe_result = 2;
 }
 
-message FetchClusterRequest { 
+message FetchClusterRequest {
     bool linearizable = 1;
 }
 
 message FetchClusterResponse {
     optional uint64 leader_id = 1;
-    uint64 term = 2;
-    uint64 cluster_id = 3;
-    repeated Member members = 4;
-    uint64 cluster_version = 5;
+    uint64 term               = 2;
+    uint64 cluster_id         = 3;
+    repeated Member members   = 4;
+    uint64 cluster_version    = 5;
 }
 
 message FetchReadStateRequest {
-    bytes command = 1;
+    bytes command          = 1;
     uint64 cluster_version = 2;
 }
 
@@ -144,65 +144,71 @@ message FetchReadStateResponse {
         repeated uint64 inflight_ids = 1;
     }
     oneof read_state {
-        IdSet ids = 1;
+        IdSet ids           = 1;
         uint64 commit_index = 2;
     }
 }
 
 message ShutdownRequest {
-    ProposeId propose_id = 1;
+    ProposeId propose_id   = 1;
     uint64 cluster_version = 2;
 }
 
-message ShutdownResponse {
-}
+message ShutdownResponse {}
 
 message ProposeConfChangeRequest {
     enum ConfChangeType {
-        Add = 0;
+        Add        = 0;
         AddLearner = 1;
-        Remove = 2;
-        Update = 3;
-        Promote = 4;
+        Remove     = 2;
+        Update     = 3;
+        Promote    = 4;
     }
     message ConfChange {
         ConfChangeType change_type = 1;
-        uint64 node_id = 2;
-        repeated string address = 3;
+        uint64 node_id             = 2;
+        repeated string address    = 3;
     }
-    ProposeId propose_id = 1;
+    ProposeId propose_id        = 1;
     repeated ConfChange changes = 2;
-    uint64 cluster_version = 3;
+    uint64 cluster_version      = 3;
 }
 
 message ProposeConfChangeResponse {
-    repeated Member members = 1; 
+    repeated Member members = 1;
 }
 
 message PublishRequest {
-    ProposeId propose_id = 1;   
-    uint64 node_id = 2;
-    string name = 3;
+    ProposeId propose_id = 1;
+    uint64 node_id       = 2;
+    string name          = 3;
 }
 
-message PublishResponse {
-}
+message PublishResponse {}
 
 message MoveLeaderRequest {
-    uint64 node_id = 1;
+    uint64 node_id         = 1;
     uint64 cluster_version = 2;
 }
 
 message MoveLeaderResponse {}
 
+message LeaseKeepAliveMsg {
+    uint64 client_id = 1;
+}
 
 service Protocol {
+    // Unary
     rpc Propose(ProposeRequest) returns (ProposeResponse);
     rpc WaitSynced(WaitSyncedRequest) returns (WaitSyncedResponse);
-    rpc ProposeConfChange(ProposeConfChangeRequest) returns (ProposeConfChangeResponse);
+    rpc ProposeConfChange(ProposeConfChangeRequest)
+        returns (ProposeConfChangeResponse);
     rpc Publish(PublishRequest) returns (PublishResponse);
     rpc Shutdown(ShutdownRequest) returns (ShutdownResponse);
     rpc FetchCluster(FetchClusterRequest) returns (FetchClusterResponse);
     rpc FetchReadState(FetchReadStateRequest) returns (FetchReadStateResponse);
     rpc MoveLeader(MoveLeaderRequest) returns (MoveLeaderResponse);
+
+    // Stream
+    rpc LeaseKeepAlive(stream LeaseKeepAliveMsg) returns (LeaseKeepAliveMsg);
 }
