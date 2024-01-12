@@ -1,0 +1,22 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch: {}
+
+env:
+  STYLE: "{ IndentWidth: 4, BasedOnStyle: google, AlignConsecutiveAssignments: true }"
+
+jobs:
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get update -y --force-yes && sudo apt-get install -y --force-yes clang-format
+
+      - name: Check format
+        run: "clang-format --dry-run -Werror --style='${{ env.STYLE }}' src/*"
