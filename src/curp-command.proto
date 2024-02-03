@@ -16,10 +16,11 @@ message ProposeId {
 }
 
 message Member {
-    uint64 id             = 1;
-    string name           = 2;
-    repeated string addrs = 3;
-    bool is_learner       = 4;
+    uint64 id                   = 1;
+    string name                 = 2;
+    repeated string peer_urls   = 3;
+    repeated string client_urls = 4;
+    bool is_learner             = 5;
 }
 
 message CmdResult {
