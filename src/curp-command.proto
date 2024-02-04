@@ -180,9 +180,10 @@ message ProposeConfChangeResponse {
 }
 
 message PublishRequest {
-    ProposeId propose_id = 1;
-    uint64 node_id       = 2;
-    string name          = 3;
+    ProposeId propose_id        = 1;
+    uint64 node_id              = 2;
+    string name                 = 3;
+    repeated string client_urls = 4;
 }
 
 message PublishResponse {}
