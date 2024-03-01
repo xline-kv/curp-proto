@@ -112,7 +112,33 @@ message ProposeRequest {
 
 message ProposeResponse {
     CmdResult result = 1;
+    bool conflict = 2;
 }
+
+message SyncedResponse {
+    // The serialized command after sync result
+    // The original type is Result<Command::ASR, Command::Error>
+    CmdResult after_sync_result = 1;
+}
+
+message OpResponse {
+    oneof op {
+        ProposeResponse propose = 1;
+        SyncedResponse synced = 2;
+    }
+}
+
+message RecordRequest {
+    ProposeId propose_id = 1;
+    // The serialized command
+    // The original type is `Command`
+    bytes command = 2;
+}
+
+message RecordResponse {
+    bool conflict = 1;
+}
+
 
 message WaitSyncedRequest {
     ProposeId propose_id   = 1;
@@ -207,6 +233,8 @@ message LeaseKeepAliveMsg {
 
 service Protocol {
     // Unary
+    rpc ProposeStream(ProposeRequest) returns (stream OpResponse);
+    rpc Record(RecordRequest) returns (RecordResponse);
     rpc Propose(ProposeRequest) returns (ProposeResponse);
     rpc WaitSynced(WaitSyncedRequest) returns (WaitSyncedResponse);
     rpc ProposeConfChange(ProposeConfChangeRequest)
