@@ -108,6 +108,7 @@ message ProposeRequest {
     // The original type is `Command`
     bytes command          = 2;
     uint64 cluster_version = 3;
+    uint64 term = 4;
 }
 
 message ProposeResponse {
