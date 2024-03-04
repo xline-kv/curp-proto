@@ -236,8 +236,6 @@ service Protocol {
     // Unary
     rpc ProposeStream(ProposeRequest) returns (stream OpResponse);
     rpc Record(RecordRequest) returns (RecordResponse);
-    rpc Propose(ProposeRequest) returns (ProposeResponse);
-    rpc WaitSynced(WaitSyncedRequest) returns (WaitSyncedResponse);
     rpc ProposeConfChange(ProposeConfChangeRequest)
         returns (ProposeConfChangeResponse);
     rpc Publish(PublishRequest) returns (PublishResponse);
