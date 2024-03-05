@@ -99,6 +99,8 @@ message CurpError {
         string Internal = 12;
         // When the leader is transferring or an error occurred in the transfer
         string LeaderTransfer = 13;
+        // When the leader is a zombie
+        google.protobuf.Empty Zombie = 14;
     }
 }
 
