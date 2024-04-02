@@ -111,6 +111,7 @@ message ProposeRequest {
     bytes command          = 2;
     uint64 cluster_version = 3;
     uint64 term = 4;
+    bool slow_path = 5;
 }
 
 message ProposeResponse {
