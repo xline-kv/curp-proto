@@ -236,10 +236,17 @@ message LeaseKeepAliveMsg {
     uint64 client_id = 1;
 }
 
+message ReadIndexRequest {}
+
+message ReadIndexResponse {
+    uint64 term = 1;
+}
+
 service Protocol {
     // Unary
     rpc ProposeStream(ProposeRequest) returns (stream OpResponse);
     rpc Record(RecordRequest) returns (RecordResponse);
+    rpc ReadIndex(ReadIndexRequest) returns (ReadIndexResponse);
     rpc ProposeConfChange(ProposeConfChangeRequest)
         returns (ProposeConfChangeResponse);
     rpc Publish(PublishRequest) returns (PublishResponse);
