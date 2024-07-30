@@ -10,6 +10,12 @@ option java_package         = "com.curp.protobuf";
 option java_outer_classname = "CommandProto";
 option java_multiple_files  = true;
 
+// For compatibility of gRPC implementations that do not support the `optional`
+// keyword
+message OptionalU64 {
+    uint64 value = 1;
+}
+
 message ProposeId {
     uint64 client_id = 1;
     uint64 seq_num   = 2;
@@ -50,8 +56,8 @@ message CmdResult {
 // Please add comments above your error if you want to extend more :)
 message CurpError {
     message Redirect {
-        optional uint64 leader_id = 1;
-        uint64 term               = 2;
+        OptionalU64 leader_id = 1;
+        uint64 term           = 2;
     }
     oneof err {
         // When a command conflicts with the server SP.
@@ -128,11 +134,11 @@ message FetchClusterRequest {
 }
 
 message FetchClusterResponse {
-    optional uint64 leader_id = 1;
-    uint64 term               = 2;
-    uint64 cluster_id         = 3;
-    repeated Member members   = 4;
-    uint64 cluster_version    = 5;
+    OptionalU64 leader_id   = 1;
+    uint64 term             = 2;
+    uint64 cluster_id       = 3;
+    repeated Member members = 4;
+    uint64 cluster_version  = 5;
 }
 
 message FetchReadStateRequest {
