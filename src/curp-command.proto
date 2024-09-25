@@ -108,16 +108,16 @@ message ProposeRequest {
     ProposeId propose_id = 1;
     // The serialized command
     // The original type is `Command`
-    bytes command          = 2;
-    uint64 cluster_version = 3;
-    uint64 term = 4;
-    bool slow_path = 5;
+    bytes command           = 2;
+    uint64 cluster_version  = 3;
+    uint64 term             = 4;
+    bool slow_path          = 5;
     uint64 first_incomplete = 6;
 }
 
 message ProposeResponse {
     CmdResult result = 1;
-    bool conflict = 2;
+    bool conflict    = 2;
 }
 
 message SyncedResponse {
@@ -129,7 +129,7 @@ message SyncedResponse {
 message OpResponse {
     oneof op {
         ProposeResponse propose = 1;
-        SyncedResponse synced = 2;
+        SyncedResponse synced   = 2;
     }
 }
 
@@ -143,7 +143,6 @@ message RecordRequest {
 message RecordResponse {
     bool conflict = 1;
 }
-
 
 message WaitSyncedRequest {
     ProposeId propose_id   = 1;
